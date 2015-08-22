@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ujche.dao.SelfdomNeedMapper">
+	<!-- 根据用户意向id查询用户意向信息及处理人信息 -->
+	<resultMap id="wishInfoExtendMap" type="com.ujche.model.WishInfoExtend">
+		<id property="wishId" column="wishId" />
+		<result property="carType" column="carType" />
+		<result property="carColor" column="carColor" />
+		<result property="carEngine" column="carEngine" />
+		<result property="carOilType" column="carOilType" />
+		<result property="carDemand" column="carDemand" />
+		<result property="minMoney" column="minMoney" />
+		<result property="maxMoney" column="maxMoney" />
+		<result property="userRealName" column="userRealName" />
+		<result property="phone" column="phone" />
+		<result property="status" column="status" />
+		<result property="checkUserId" column="checkUserId" />
+		<result property="checkReason" column="checkReason" />
+		<result property="checkTime" column="checkTime" />
+		<result property="addTime" column="addTime" />
+		<association property="userInfo" javaType="com.ujche.model.UserInfo">
+			<id property="uid" column="uid" />
+			<result property="userName" column="userName" />
+		</association>
+	</resultMap>
+	<select id="selectWishInfoExtend" 
+		resultMap="wishInfoExtendMap">
+		SELECT
+		wish_info.wishId,
+		wish_info.carType,
+		wish_info.carColor,
+		wish_info.carEngine,
+		wish_info.carOilType,
+		wish_info.carDemand,
+		wish_info.minMoney,
+		wish_info.maxMoney,
+		wish_info.userRealName,
+		wish_info.phone,
+		wish_info.status,
+		wish_info.checkUserId,
+		wish_info.checkReason,
+		wish_info.checkTime,
+		wish_info.addTime,
+		user_userinfo.uid,
+		user_userinfo.userName
+		FROM
+		wish_info left join user_userinfo on
+		wish_info.checkUserId=user_userinfo.uid
+		WHERE
+		wish_info.wishId=#{wishId}				
+	</select>
+
+</mapper>
